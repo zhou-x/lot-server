@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotRoleMapper">
+    <resultMap id="BaseResultMap" type="com.lot.Base.LotRole">
+        <id column="ID" property="roleId"/>
+        <result column="NAME" property="roleName"/>
+        <result column="ROLE_DESC" property="roleDesc"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.ID,
+        US.NAME,
+        US.ROLE_DESC,
+        US.YN_FLAG
+        FROM lot_role US
+        )RESULT
+    </select>
+
+    <select id="getRoleBy" resultMap="BaseResultMap">
+        SELECT RO.* from lot_user lu
+        LEFT JOIN lot_user_role UR on UR.user_id = lu.id
+        LEFT JOIN lot_role RO on RO.id = UR.role_id
+        <if test="username != null">
+            where lu.username = #{username}
+        </if>
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_role US
+        )RESULT
+    </select>
+</mapper>

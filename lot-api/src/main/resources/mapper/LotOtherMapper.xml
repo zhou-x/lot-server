@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotOtherMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotOtherEntity">
+        <id column="OTHER_ID" property="otherId"/>
+        <result column="ABOUT_US" property="aboutUs"/>
+        <result column="CONTACT_US" property="contactUs"/>
+        <result column="USER_PROTOCOL" property="userProtocol"/>
+        <result column="PRIVACY_POLICY" property="privacyPolicy"/>
+        <result column="DEMAND_EXAMPLE" property="demandExample"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="COMMON_PROBLEM" property="commonProblem"/>
+        <result column="START_IMG" property="startImg"/>
+    </resultMap>
+    <select id="get" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT * FROM lot_other
+    </select>
+
+    <update id="updateABOUT_US" parameterType="string">
+        update lot_other
+        set
+        ABOUT_US = #{s}
+        where OTHER_ID = '666666'
+    </update>
+    <update id="updateCONTACT_US" parameterType="string">
+        update lot_other
+        set
+        CONTACT_US = #{s}
+        where OTHER_ID = '666666'
+    </update>
+
+    <update id="updateUSER_PROTOCOL" parameterType="string">
+        update lot_other
+        set
+        USER_PROTOCOL = #{s}
+        where OTHER_ID = '666666'
+    </update>
+    <update id="updatePRIVACY_POLICY" parameterType="string">
+        update lot_other
+        set
+        PRIVACY_POLICY = #{s}
+        where OTHER_ID = '666666'
+    </update>
+    <update id="updateDEMAND_EXAMPLE" parameterType="string">
+        update lot_other
+        set
+        DEMAND_EXAMPLE = #{s}
+        where OTHER_ID = '666666'
+    </update>
+    <update id="updateCOMMON_PROBLEM" parameterType="string">
+        update lot_other
+        set
+        COMMON_PROBLEM = #{s}
+        where OTHER_ID = '666666'
+    </update>
+    <update id="updateStartImgUrl">
+        update lot_other
+        set
+        START_IMG = #{s}
+        where OTHER_ID = '666666'
+    </update>
+
+</mapper>

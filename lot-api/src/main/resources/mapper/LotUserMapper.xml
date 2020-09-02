@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotUserMapper">
+    <resultMap id="BaseResultMap" type="com.lot.vo.lotUser.LotUser">
+        <id column="ID" property="userId"/>
+        <result column="ACCOUNT" property="account"/>
+        <result column="USERNAME" property="userName"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="EMAIL" property="email"/>
+        <result column="STATUS" property="status"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="SALT" property="salt"/>
+        <result column="AVATAR" property="avatar"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="OPEN_ID" property="openId"/>
+        <result column="TELPHONE" property="telphone"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.ID,
+        US.ACCOUNT,
+        US.USERNAME,
+        US.PASSWORD,
+        US.EMAIL,
+        US.STATUS,
+        US.YN_FLAG,
+        US.SALT,
+        US.AVATAR,
+        US.CREATED_TIME,
+        US.OPEN_ID,
+        US.TELPHONE
+        FROM lot_user US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="username != null">
+            and US.USERNAME = #{username}
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="orderColumn == null">
+            ORDER BY RESULT.ID ASC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getUser" resultMap="BaseResultMap">
+        select * from lot_user us
+        <if test="username != null">
+            where us.username = #{username} or us.EMAIL = #{username}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_user US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="username != null">
+            and US.USERNAME = #{username}
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+    </select>
+
+
+    <select id="getCountByOpenId" resultType="int">
+        SELECT
+        count(*)
+        FROM lot_user US
+        WHERE
+        1=1
+        <if test="openId != null">
+            and US.open_id = #{openId}
+        </if>
+    </select>
+
+    <select id="getUserByOpenId" resultType="com.lot.entity.LotUserEntity">
+        SELECT
+        *
+        FROM lot_user US
+        WHERE
+        1=1
+        <if test="openId != null">
+            and US.open_id = #{openId}
+        </if>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotRotationChartMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotRotationChartEntity">
+        <id column="ROTATIONCHART_ID" property="rotationChartId"/>
+        <result column="IMG_PATH" property="imgPath"/>
+        <result column="IMG_DESC" property="imgDesc"/>
+        <result column="IS_HIDE" property="isHide"/>
+        <result column="ORDERS" property="orders"/>
+        <result column="IMG_LINK" property="imgLink"/>
+        <result column="REMARK" property="remark"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.ROTATIONCHART_ID,
+        US.IMG_PATH,
+        US.IMG_DESC,
+        US.IS_HIDE,
+        US.ORDERS,
+        US.IMG_LINK,
+        US.CREATED_TIME,
+        US.REMARK,
+        US.YN_FLAG
+        FROM lot_rotationchart US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="isHide != null">
+            and US.IS_HIDE = #{isHide}
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="orderColumn == null">
+            ORDER BY RESULT.CREATED_TIME ASC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_rotationchart US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="isHide != null">
+            and US.IS_HIDE = #{isHide}
+        </if>
+        <if test="material_or_model != null">
+            and (US.MODEL = #{material_or_model} or US.MATERIAL = #{material_or_model})
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+    </select>
+
+
+    <select id="getList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        US.ROTATIONCHART_ID,
+        US.IMG_PATH,
+        US.IMG_DESC,
+        US.IS_HIDE,
+        US.ORDERS,
+        US.IMG_LINK,
+        US.CREATED_TIME,
+        US.REMARK,
+        US.YN_FLAG
+        FROM lot_rotationchart US
+        WHERE
+        1 = 1
+        and US.YN_FLAG = 'Y'
+        and US.IS_HIDE = 'Y'
+        order by US.ORDERS
+    </select>
+
+
+</mapper>

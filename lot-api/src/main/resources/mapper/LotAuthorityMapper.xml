@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotAuthorityMapper">
+    <resultMap id="BaseResultMap" type="com.lot.Base.LotAuthority">
+        <id column="ID" property="authorityId"/>
+        <result column="CODE" property="code"/>
+        <result column="AUTHORITY_DESC" property="authorityDesc"/>
+        <result column="SHOW_ORDER" property="showOrder"/>
+        <result column="PID" property="pid"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="ID" property="key"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.ID,
+        US.CODE,
+        US.AUTHORITY_DESC,
+        US.SHOW_ORDER,
+        US.PID,
+        US.CREATED_TIME,
+        US.YN_FLAG
+        FROM lot_authority US
+        <if test="roleId != null">
+            INNER JOIN lot_role_authority RA ON RA.authority_id = US.id
+            INNER JOIN lot_role RO ON RO.id = RA.role_id
+        </if>
+        WHERE
+        1=1
+        <if test="roleId != null">
+            and RO.id = #{roleId}
+        </if>
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="orderColumn == null">
+            ORDER BY RESULT.CODE DESC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getAuthorityBy" resultMap="BaseResultMap">
+        SELECT AU.* from lot_user lu
+        LEFT JOIN lot_user_role UR on UR.user_id = lu.id
+        LEFT JOIN lot_role RO on RO.id = UR.role_id
+        LEfT JOIN lot_role_authority RA on RA.role_id = RO.id
+        LEFT JOIN lot_authority AU on AU.id = RA.authority_id
+        where
+        1=1
+        <if test="username != null">
+            and lu.username = #{username}
+        </if>
+        and RA.yn_flag = 'Y'
+    </select>
+
+    <select id="getAuthorityByOpenId" resultMap="BaseResultMap">
+        SELECT AU.* from lot_user lu
+        LEFT JOIN lot_user_role UR on UR.user_id = lu.id
+        LEFT JOIN lot_role RO on RO.id = UR.role_id
+        LEfT JOIN lot_role_authority RA on RA.role_id = RO.id
+        LEFT JOIN lot_authority AU on AU.id = RA.authority_id
+        where
+        1=1
+        <if test="openId != null">
+            and lu.id = #{userId}
+        </if>
+        and RA.yn_flag = 'Y'
+    </select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_authority US
+        <if test="roleId != null">
+            INNER JOIN lot_role_authority RA ON RA.authority_id = US.id
+            INNER JOIN lot_role RO ON RO.id = RA.role_id
+        </if>
+        WHERE
+        1=1
+        <if test="roleId != null">
+            and RO.id = #{roleId}
+        </if>
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        )RESULT
+    </select>
+</mapper>

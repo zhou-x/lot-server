@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotSchemeMapper">
+    <resultMap id="BaseResultMap" type="com.lot.vo.lotScheme.LotSchemeVo">
+        <id column="SCHEME_ID" property="schemeId"/>
+        <result column="BRAND" property="brand"/>
+        <result column="MATERIAL" property="material"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="STATUS" property="status"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="IMG_PATHS" property="imgPaths"/>
+        <result column="CONTENT" property="content"/>
+        <result column="SPECIFICATION_ID" property="specificationId"/>
+    </resultMap>
+    <select id="findAllByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        US.SCHEME_ID,
+        US.BRAND,
+        US.MATERIAL,
+        US.ADDRESS,
+        US.STATUS,
+        US.CREATED_TIME,
+        US.IMG_PATHS,
+        US.CONTENT,
+        US.SPECIFICATION_ID
+        FROM lot_scheme US
+        WHERE
+        US.YN_FLAG = 'Y'
+        <if test="userId != null">
+            and US.USER_ID = #{userId}
+        </if>
+        order by US.created_time DESC
+    </select>
+
+
+</mapper>

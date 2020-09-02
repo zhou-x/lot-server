@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotNoticeMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotNoticeEntity">
+        <id column="NOTICE_ID" property="noticeId"/>
+        <result column="TITLE" property="title"/>
+        <result column="MODEL" property="model"/>
+        <result column="IS_HIDE" property="isHide"/>
+        <result column="ORDERS" property="orders"/>
+        <result column="READ_COUNT" property="readCount"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="IMG_PATH" property="imgPath"/>
+        <result column="STATUS" property="status"/>
+        <result column="IS_RECOMMEND" property="isRecommend"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.NOTICE_ID,
+        US.TITLE,
+        US.MODEL,
+        US.IS_HIDE,
+        US.ORDERS,
+        US.READ_COUNT,
+        US.YN_FLAG,
+        US.CREATED_TIME,
+        US.IMG_PATH,
+        US.STATUS,
+        US.IS_RECOMMEND
+        FROM lot_notice US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="title != null">
+            and US.TITLE like concat('%',#{title},'%')
+        </if>
+        <if test="isHide != null">
+            and US.IS_HIDE like concat('%',#{isHide},'%')
+        </if>
+        <if test="status != null">
+            and US.STATUS like concat('%',#{status},'%')
+        </if>
+        <if test="isRecommend != null">
+            and US.IS_RECOMMEND like concat('%',#{isRecommend},'%')
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        <if test="model != null">
+            and US.MODEL like concat('%',#{model},'%')
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="isReadCount != null">
+            order by READ_COUNT desc
+        </if>
+        <if test="orderColumn == null and isReadCount == null">
+            ORDER BY RESULT.ORDERS ASC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_notice US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="title != null">
+            and US.TITLE like concat('%',#{title},'%')
+        </if>
+        <if test="isHide != null">
+            and US.IS_HIDE like concat('%',#{isHide},'%')
+        </if>
+        <if test="status != null">
+            and US.STATUS like concat('%',#{status},'%')
+        </if>
+        <if test="isRecommend != null">
+            and US.IS_RECOMMEND like concat('%',#{isRecommend},'%')
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        <if test="model != null">
+            and US.MODEL like concat('%',#{model},'%')
+        </if>
+        )RESULT
+    </select>
+
+
+    <select id="getNoticeList" resultMap="BaseResultMap">
+        SELECT
+        US.NOTICE_ID,
+        US.TITLE,
+        US.MODEL,
+        US.IS_HIDE,
+        US.ORDERS,
+        US.READ_COUNT,
+        US.YN_FLAG,
+        US.CREATED_TIME,
+        US.IMG_PATH,
+        US.STATUS,
+        US.IS_RECOMMEND
+        FROM lot_notice US
+        WHERE
+        1=1
+        and US.YN_FLAG = 'Y'
+        and US.STATUS = 'Y'
+        ORDER BY US.ORDERS ASC
+    </select>
+
+</mapper>

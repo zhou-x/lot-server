@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotDemandHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.lot.vo.lotDemandHistory.LotDemandHistoryVo">
+        <id column="DEMAND_HISTORY_ID" property="demandHistoryId"/>
+        <result column="START_USER_ID" property="startUserId"/>
+        <result column="START_USERNAME" property="startUsername"/>
+        <result column="START_AVATAR" property="startAvatar"/>
+        <result column="START_TELPHONE" property="startTelphone"/>
+        <result column="OFFER_USER_ID" property="offerUserId"/>
+        <result column="END_USER_ID" property="endUserId"/>
+        <result column="OFFER_PRICE" property="offerPrice"/>
+        <result column="END_PRICE" property="endPrice"/>
+        <result column="DEMAND_ID" property="demandId"/>
+        <result column="BRAND" property="brand"/>
+        <result column="MATERIAL" property="material"/>
+        <result column="MODAL" property="modal"/>
+        <result column="WEIGHT" property="weight"/>
+        <result column="IMG_PATH" property="imgPath"/>
+        <result column="STATUS" property="status"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="offerUsername" property="offerUsername"/>
+        <result column="offerAvatar" property="offerAvatar"/>
+        <result column="offerTelphone" property="offerTelphone"/>
+    </resultMap>
+    <select id="findListByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        select
+        DH.DEMAND_HISTORY_ID,
+        DH.START_USER_ID,
+        US.username as START_USERNAME,
+        US.avatar as START_AVATAR,
+        US.telphone as START_TELPHONE,
+        DH.OFFER_USER_ID,
+        USS.username as offerUsername,
+        USS.avatar as offerAvatar,
+        USS.telphone as offerTelphone,
+        DH.END_USER_ID,
+        DH.OFFER_PRICE,
+        DH.END_PRICE,
+        DH.DEMAND_ID,
+        DE.brand as BRAND,
+        DE.material as MATERIAL,
+        DE.model as MODAL,
+        DE.weight as WEIGHT,
+        DE.img_path as IMG_PATH,
+        DH.STATUS,
+        DH.YN_FLAG,
+        DH.CREATED_TIME
+        from lot_demand_history DH
+        left join lot_user US on DH.start_user_id = US.id
+        left join lot_user USS on DH.OFFER_USER_ID = USS.id
+        left join lot_demand DE on DH.demand_id = DE.demand_id
+        WHERE
+        DH.YN_FLAG = 'Y'
+        <if test="userId != null">
+            and DH.START_USER_ID = #{userId}
+        </if>
+        <if test="status != null">
+            and DH.STATUS = #{status}
+        </if>
+        and date_sub(curdate(), interval 3 day) &lt;= date(DH.created_time)
+        )RESULT
+        WHERE
+        1=1
+        order by RESULT.created_time desc
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_demand US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+    </select>
+
+
+</mapper>

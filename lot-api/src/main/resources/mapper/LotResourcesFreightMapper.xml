@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotResourcesFreightMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotResourcesFreightEntity">
+        <id column="RESOURCES_FREIGHT_ID" property="resourcesFreightId"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="FREIGHT" property="freight"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="MODIFIED_TIME" property="modifiedTime"/>
+        <result column="SUBORDINATE_AREA" property="subordinateArea"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.RESOURCES_FREIGHT_ID,
+        US.ADDRESS,
+        US.FREIGHT,
+        US.YN_FLAG,
+        US.CREATED_TIME,
+        US.MODIFIED_TIME,
+        US.SUBORDINATE_AREA
+        FROM lot_resources_freight US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="orderColumn == null">
+            ORDER BY RESULT.CREATED_TIME ASC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_resources_freight US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        )RESULT
+    </select>
+</mapper>

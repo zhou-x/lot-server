@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotResourcesHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotResourcesHistoryEntity">
+        <id column="RESOURCES_HISTORY_ID" property="resourcesHistoryId"/>
+        <result column="RESOURCES_ID" property="resourcesId"/>
+        <result column="BRAND" property="brand"/>
+        <result column="MODEL" property="model"/>
+        <result column="PRICE" property="price"/>
+        <result column="MATERIAL" property="material"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="MODIFIED_TIME" property="modifiedTime"/>
+    </resultMap>
+    <select id="findListByPrice" resultMap="BaseResultMap" parameterType="int">
+        SELECT
+        -- US.RESOURCES_HISTORY_ID,
+        -- US.RESOURCES_ID,
+        -- US.BRAND,
+        -- US.MODEL,
+        US.PRICE,
+        -- US.MATERIAL,
+        -- US.ADDRESS,
+        -- US.YN_FLAG,
+        US.CREATED_TIME
+        -- US.MODIFIED_TIME
+        FROM lot_resources_history US
+        WHERE
+        US.YN_FLAG = 'Y'
+        <if test="resourcesId != null">
+            and US.RESOURCES_ID = #{resourcesId}
+        </if>
+        order by US.CREATED_TIME DESC
+        <if test="day != null">
+            limit 0,#{day}
+        </if>
+        <if test="day == null">
+            limit 0,7
+        </if>
+    </select>
+
+</mapper>

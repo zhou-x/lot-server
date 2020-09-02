@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotDemandMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotDemandEntity">
+        <id column="DEMAND_ID" property="demandId"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="BRAND" property="brand"/>
+        <result column="MATERIAL" property="material"/>
+        <result column="MODEL" property="model"/>
+        <result column="WEIGHT" property="weight"/>
+        <result column="STATUS" property="status"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.DEMAND_ID,
+        US.USER_ID,
+        US.BRAND,
+        US.MATERIAL,
+        US.MODEL,
+        US.WEIGHT,
+        US.STATUS,
+        US.YN_FLAG,
+        US.CREATED_TIME
+        FROM lot_demand US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="orderColumn == null">
+            ORDER BY RESULT.CREATED_TIME ASC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_demand US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+    </select>
+
+    <select id="getListByToday" resultType="com.lot.vo.lotDemand.LotDemandVo" parameterType="java.util.Map">
+        SELECT
+        US.DEMAND_ID as demandId,
+        US.USER_ID as userId,
+        lu.username,
+        lu.avatar,
+        lu.telphone,
+        US.BRAND as brand,
+        US.MATERIAL as material,
+        US.MODEL as model,
+        US.WEIGHT as weight,
+        US.STATUS as status,
+        US.YN_FLAG as ynFlag,
+        US.CREATED_TIME as createdTime
+        FROM lot_demand US
+        left join lot_user lu on lu.id = US.user_id
+        WHERE
+        1=1
+        and US.YN_FLAG = 'Y'
+
+        <if test="startDateTime != null and endDateTime != null">
+            and US.CREATED_TIME >=#{startDateTime} and US.CREATED_TIME &lt;=#{endDateTime}
+        </if>
+        <if test="brand != null">
+            and US.BRAND like concat('%',#{brand},'%')
+        </if>
+        <if test="material != null">
+            and US.MATERIAL like concat('%',#{material},'%')
+        </if>
+    </select>
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotCodeMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotCodeEntity">
+        <id column="LOT_CODE_ID" property="lotCodeId"/>
+        <result column="CODE" property="code"/>
+        <result column="CODE_DESC" property="value"/>
+        <result column="CODE_DESC" property="codeDesc"/>
+        <result column="CODE_BELONG" property="codeBelong"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        CO.LOT_CODE_ID,
+        CO.CODE,
+        CO.CODE.DESC,
+        CO.CODE_BELONG
+        FROM lot_code CO
+        )RESULT
+        WHERE
+        YN_FLAG = 'Y'
+        ORDER BY SHOW_ORDER
+    </select>
+
+    <select id="getCode" parameterType="string" resultMap="BaseResultMap">
+        SELECT LOT_CODE_ID,CODE,CODE_DESC FROM lot_code WHERE CODE_BELONG = #{codeBelong} ORDER BY SHOW_ORDER
+    </select>
+</mapper>

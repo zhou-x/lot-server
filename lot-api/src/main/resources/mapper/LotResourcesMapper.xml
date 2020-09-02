@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotResourcesMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotResourcesEntity">
+        <id column="RESOURCES_ID" property="resourcesId"/>
+        <result column="BRAND" property="brand"/>
+        <result column="MODEL" property="model"/>
+        <result column="PRICE" property="price"/>
+        <result column="LAST_PRICE" property="lastPrice"/>
+        <result column="MATERIAL" property="material"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="FREIGHT" property="freight"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+        <result column="CREATED_TIME" property="createdTime"/>
+        <result column="MODIFIED_TIME" property="modifiedTime"/>
+        <result column="SUBORDINATE_AREA" property="subordinateArea"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        US.RESOURCES_ID,
+        US.BRAND,
+        US.MODEL,
+        US.PRICE,
+        US.LAST_PRICE,
+        US.MATERIAL,
+        US.ADDRESS,
+        US.FREIGHT,
+        US.YN_FLAG,
+        US.CREATED_TIME,
+        US.MODIFIED_TIME,
+        US.SUBORDINATE_AREA
+        FROM lot_resources US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="brand != null">
+            and (US.BRAND like concat('%',#{brand},'%') or US.ADDRESS like concat('%',#{brand},'%'))
+        </if>
+        <if test="material_or_model != null">
+            and (US.MODEL like concat('%',#{material_or_model},'%') or US.MATERIAL like
+            concat('%',#{material_or_model},'%'))
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        <if test="startSelectDate != null and endSelectDate != null">
+            and US.CREATED_TIME >=#{startSelectDate} and US.CREATED_TIME &lt;=#{endSelectDate}
+        </if>
+        )RESULT
+        WHERE
+        1=1
+        <if test="orderColumn!=null and orderDirection !=null">
+            ORDER BY ${orderColumn} ${orderDirection}
+        </if>
+        <if test="orderColumn == null">
+            ORDER BY RESULT.CREATED_TIME ASC
+        </if>
+        <if test="index != null and pageSize != null">
+            limit #{index}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="getCount" resultType="int" parameterType="java.util.Map">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        count(*)
+        FROM lot_resources US
+        WHERE
+        1=1
+        <if test="ynFlag != null">
+            and US.YN_FLAG = #{ynFlag}
+        </if>
+        <if test="brand != null">
+            and (US.BRAND like concat('%',#{brand},'%') or US.ADDRESS like concat('%',#{brand},'%'))
+        </if>
+        <if test="material_or_model != null">
+            and (US.MODEL like concat('%',#{material_or_model},'%') or US.MATERIAL like
+            concat('%',#{material_or_model},'%'))
+        </if>
+        <if test="createTimeStart != null and createTimeEnd != null">
+            and US.CREATED_TIME >=#{createTimeStart} and US.CREATED_TIME &lt;=#{createTimeEnd}
+        </if>
+        )RESULT
+    </select>
+
+    <select id="getSimpleList" resultMap="BaseResultMap" parameterType="string">
+        SELECT
+        US.RESOURCES_ID,
+        US.BRAND,
+        US.MODEL,
+        US.PRICE,
+        US.LAST_PRICE,
+        US.MATERIAL,
+        US.ADDRESS,
+        US.FREIGHT,
+        US.SUBORDINATE_AREA
+        FROM lot_resources US
+        WHERE
+        1=1
+        and US.yn_flag = 'Y'
+        <if test="address != null">
+            and US.SUBORDINATE_AREA like concat('%',#{address},'%')
+        </if>
+        <if test="brand != null">
+            and US.BRAND like concat('%',#{brand},'%')
+        </if>
+        order by US.orders asc
+    </select>
+
+    <select id="searchList" resultMap="BaseResultMap" parameterType="string">
+        SELECT
+        US.RESOURCES_ID,
+        US.BRAND,
+        US.MODEL,
+        US.PRICE,
+        US.LAST_PRICE,
+        US.MATERIAL,
+        US.ADDRESS,
+        US.FREIGHT
+        FROM lot_resources US
+        WHERE
+        1=1
+        and US.yn_flag = 'Y'
+        <if test="searchField != null">
+            and (US.BRAND like concat('%',#{searchField},'%') or US.MATERIAL like concat('%',#{searchField},'%'))
+        </if>
+    </select>
+
+    <select id="generateScheme" resultMap="BaseResultMap" parameterType="java.util.Map">
+        SELECT
+        US.RESOURCES_ID,
+        US.BRAND,
+        US.MODEL,
+        US.PRICE,
+        US.LAST_PRICE,
+        US.MATERIAL,
+        US.ADDRESS,
+        US.FREIGHT,
+        US.YN_FLAG,
+        US.CREATED_TIME,
+        US.MODIFIED_TIME
+        FROM lot_resources US
+        WHERE
+        US.YN_FLAG = 'Y'
+        <if test="brand != null">
+            and US.BRAND like concat('%',#{brand},'%')
+        </if>
+        <if test="address != null">
+            and US.ADDRESS like concat('%',#{address},'%')
+        </if>
+        <if test="material != null">
+            and US.MATERIAL like concat('%',#{material},'%')
+        </if>
+        <if test="model != null">
+            and US.MODEL like concat('%',#{model},'%')
+        </if>
+    </select>
+
+    <select id="findAllByBrandAndModel" resultMap="BaseResultMap">
+        SELECT
+        US.RESOURCES_ID,
+        US.BRAND,
+        US.MODEL,
+        US.PRICE,
+        US.LAST_PRICE,
+        US.MATERIAL,
+        US.ADDRESS,
+        US.FREIGHT,
+        US.YN_FLAG,
+        US.CREATED_TIME,
+        US.MODIFIED_TIME,
+        US.SUBORDINATE_AREA
+        FROM lot_resources US
+        WHERE
+        US.YN_FLAG = 'Y'
+        and US.SUBORDINATE_AREA like concat('%',#{address},'%')
+        and US.MATERIAL = #{material}
+        <if test="brandList != null">
+            and US.BRAND in
+
+            <foreach collection="brandList" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+
+        </if>
+        and US.MODEL like concat('%',#{model},'%')
+        order by US.PRICE ASC
+    </select>
+    <select id="getResourcesListByDate" resultType="com.lot.entity.LotResourcesHistoryEntity">
+        select
+        US.resources_history_id as resourcesHistoryId,
+        US.resources_id as resourcesId,
+        US.address,
+        US.brand ,
+        US.material ,
+        US.model ,
+        US.price,
+        US.last_Price as lastPrice,
+        US.CREATED_TIME as createdTime,
+        US.subordinate_area as subordinateArea
+        from lot_resources_history US
+        where
+        1=1
+        <if test="startDate != null and endDate != null">
+            and US.CREATED_TIME >=#{startDate} and US.CREATED_TIME &lt;=#{endDate}
+        </if>
+        <if test="mark != null">
+            and US.MODEL = 'HRB400E φ18'
+        </if>
+        <if test="brand != null">
+            and US.brand = #{brand}
+        </if>
+        <if test="address != null">
+            and US.subordinate_area like concat('%',#{address},'%')
+        </if>
+        order by US.created_time desc
+    </select>
+
+</mapper>

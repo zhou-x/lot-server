@@ -5,7 +5,7 @@
     <packaging>pom</packaging>
     <!--    引入modules-->
     <modules>
-        <module>lot-api</module>
+        <module>lot-core</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -29,7 +29,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.lot</groupId>
-                <artifactId>lot-api</artifactId>
+                <artifactId>lot-core</artifactId>
                 <version>${lot.version}</version>
             </dependency>
         </dependencies>

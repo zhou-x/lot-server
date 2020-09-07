@@ -12,7 +12,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "lot_scheme", schema = "hgz", catalog = "")
+@Table(name = "lot_scheme", schema = "hgz2", catalog = "")
 public class LotSchemeEntity {
     private String schemeId;
     private String userId;

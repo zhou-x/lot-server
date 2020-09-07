@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "lot_user_role", schema = "lots", catalog = "")
+@Table(name = "lot_user_role", schema = "hgz2", catalog = "")
 public class LotUserRoleEntity {
     private String id;
     private String userId;

@@ -1,70 +1,84 @@
 package com.lot.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 @Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "lot_code", schema = "hgz2")
-public class LotCodeEntity {
-    private String lotCodeId;
-    private String code;
-    private String value;
-    private String codeBelong;
-    private String codeDesc;
+@Table(name = "lot_routes", schema = "hgz2", catalog = "")
+public class LotRoutesEntity {
+    private String routesId;
+    private String path;
+    private String name;
+    private String icon;
+    private String component;
+    private String authority;
     private Integer showOrder;
-    private String parentCode;
+    private String pId;
     private String ynFlag;
     private String creator;
     private String editor;
-    @CreatedDate
     private Timestamp createdTime;
     private Timestamp modifiedTime;
 
     @Id
-    @Column(name = "lot_code_id")
-    public String getLotCodeId() {
-        return lotCodeId;
+    @Column(name = "routes_id")
+    public String getRoutesId() {
+        return routesId;
     }
 
-    public void setLotCodeId(String lotCodeId) {
-        this.lotCodeId = lotCodeId;
-    }
-
-    @Basic
-    @Column(name = "code")
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public void setRoutesId(String routesId) {
+        this.routesId = routesId;
     }
 
     @Basic
-    @Column(name = "code_belong")
-    public String getCodeBelong() {
-        return codeBelong;
+    @Column(name = "path")
+    public String getPath() {
+        return path;
     }
 
-    public void setCodeBelong(String codeBelong) {
-        this.codeBelong = codeBelong;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Basic
-    @Column(name = "code_desc")
-    public String getCodeDesc() {
-        return codeDesc;
+    @Column(name = "name")
+    public String getName() {
+        return name;
     }
 
-    public void setCodeDesc(String codeDesc) {
-        this.codeDesc = codeDesc;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "icon")
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    @Basic
+    @Column(name = "component")
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
+    @Basic
+    @Column(name = "authority")
+    public String getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(String authority) {
+        this.authority = authority;
     }
 
     @Basic
@@ -78,13 +92,13 @@ public class LotCodeEntity {
     }
 
     @Basic
-    @Column(name = "parent_code")
-    public String getParentCode() {
-        return parentCode;
+    @Column(name = "p_id")
+    public String getpId() {
+        return pId;
     }
 
-    public void setParentCode(String parentCode) {
-        this.parentCode = parentCode;
+    public void setpId(String pId) {
+        this.pId = pId;
     }
 
     @Basic
@@ -141,13 +155,15 @@ public class LotCodeEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LotCodeEntity that = (LotCodeEntity) o;
-        return lotCodeId == that.lotCodeId &&
-                Objects.equals(code, that.code) &&
-                Objects.equals(codeBelong, that.codeBelong) &&
-                Objects.equals(codeDesc, that.codeDesc) &&
+        LotRoutesEntity that = (LotRoutesEntity) o;
+        return Objects.equals(routesId, that.routesId) &&
+                Objects.equals(path, that.path) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(icon, that.icon) &&
+                Objects.equals(component, that.component) &&
+                Objects.equals(authority, that.authority) &&
                 Objects.equals(showOrder, that.showOrder) &&
-                Objects.equals(parentCode, that.parentCode) &&
+                Objects.equals(pId, that.pId) &&
                 Objects.equals(ynFlag, that.ynFlag) &&
                 Objects.equals(creator, that.creator) &&
                 Objects.equals(editor, that.editor) &&
@@ -157,14 +173,6 @@ public class LotCodeEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(lotCodeId, code, codeBelong, codeDesc, showOrder, parentCode, ynFlag, creator, editor, createdTime, modifiedTime);
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+        return Objects.hash(routesId, path, name, icon, component, authority, showOrder, pId, ynFlag, creator, editor, createdTime, modifiedTime);
     }
 }

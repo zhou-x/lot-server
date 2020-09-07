@@ -12,7 +12,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 @Entity
 @EntityListeners(AuditingEntityListener.class)  //让@CreateDate注解生效（应该是这样）
-@Table(name = "lot_resources", schema = "hgz", catalog = "")
+@Table(name = "lot_resources", schema = "hgz2", catalog = "")
 public class LotResourcesEntity {
     private String resourcesId;
     private String brand;

@@ -11,7 +11,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "lot_user", schema = "hgz", catalog = "")
+@Table(name = "lot_user", schema = "hgz2", catalog = "")
 public class LotUserEntity {
     private String id;
     private String account;

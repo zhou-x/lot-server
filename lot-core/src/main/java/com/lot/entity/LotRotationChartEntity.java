@@ -11,7 +11,7 @@ import java.util.Objects;
 @JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "lot_rotationchart", schema = "hgz", catalog = "")
+@Table(name = "lot_rotationchart", schema = "hgz2", catalog = "")
 public class LotRotationChartEntity {
     private String rotationChartId;
     private String imgPath;

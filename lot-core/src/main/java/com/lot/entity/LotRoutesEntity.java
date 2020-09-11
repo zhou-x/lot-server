@@ -1,10 +1,15 @@
 package com.lot.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+@JsonIgnoreProperties(value = { "hibernateLazyInitializer"})
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "lot_routes", schema = "hgz2", catalog = "")
 public class LotRoutesEntity {
     private String routesId;
@@ -20,6 +25,7 @@ public class LotRoutesEntity {
     private String editor;
     private Timestamp createdTime;
     private Timestamp modifiedTime;
+    private String redirect;
 
     @Id
     @Column(name = "routes_id")
@@ -174,5 +180,15 @@ public class LotRoutesEntity {
     @Override
     public int hashCode() {
         return Objects.hash(routesId, path, name, icon, component, authority, showOrder, pId, ynFlag, creator, editor, createdTime, modifiedTime);
+    }
+
+    @Basic
+    @Column(name = "redirect")
+    public String getRedirect() {
+        return redirect;
+    }
+
+    public void setRedirect(String redirect) {
+        this.redirect = redirect;
     }
 }

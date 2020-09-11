@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lot.mapper.LotRoutesMapper">
+    <resultMap id="BaseResultMap" type="com.lot.entity.LotRoutesEntity">
+        <id column="ROUTES_ID" property="routesId"/>
+        <result column="PATH" property="path"/>
+        <result column="NAME" property="name"/>
+        <result column="ICON" property="icon"/>
+        <result column="COMPONENT" property="component"/>
+        <result column="AUTHORITY" property="authority"/>
+        <result column="SHOW_ORDER" property="showOrder"/>
+        <result column="REDIRECT" property="redirect"/>
+        <result column="P_ID" property="pId"/>
+        <result column="YN_FLAG" property="ynFlag"/>
+    </resultMap>
+    <select id="findList" resultMap="BaseResultMap">
+        select
+        *
+        from
+        (
+        select
+        LR.ROUTES_ID,
+        LR.PATH,
+        LR.NAME,
+        LR.ICON,
+        LR.COMPONENT,
+        LR.AUTHORITY,
+        LR.SHOW_ORDER,
+        LR.REDIRECT,
+        LR.P_ID,
+        LR.YN_FLAG
+        from lot_routes LR
+        where LR.YN_FLAG = 'Y'
+        order by LR.show_order ASC
+        )RESULT
+    </select>
+
+</mapper>

@@ -1,4 +1,4 @@
-# LotteryServer
+# Lot-Server
 
 #### 介绍
 springboot整合shiro的权限管理系统（前后端分离）
@@ -21,7 +21,7 @@ springboot整合shiro的权限管理系统（前后端分离）
 
 #### 使用说明
 
-1.  使用idea克隆源码库
+1.  使用idea克隆源码库或fork仓库
 2.  启动项目
 
 #### 前端说明

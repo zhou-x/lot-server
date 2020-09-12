@@ -148,6 +148,7 @@ public class LotUserServiceImpl implements LotUserService {
         lotUserRoleEntity.setId(IDKeyUtil.getStringId());
         lotUserRoleEntity.setRoleId(lotRoleEntity.getId());
         lotUserRoleEntity.setUserId(lotUserEntity.getId());
+        lotUserRoleEntity.setYnFlag("Y");
         lotUserRoleDao.save(lotUserRoleEntity);
 
 

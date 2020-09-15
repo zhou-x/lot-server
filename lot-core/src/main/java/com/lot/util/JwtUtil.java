@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class JwtUtil {
     /**
-     * Token过期时间必须大于生效时间(5天)
+     * Token过期时间必须大于生效时间(?天)
      */
     private static final Long TOKEN_EXPIRE_TIME = 5 * 24 * 60 * 60 * 1000L;
     /**

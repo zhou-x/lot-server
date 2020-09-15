@@ -12,6 +12,7 @@
         <result column="REDIRECT" property="redirect"/>
         <result column="P_ID" property="pId"/>
         <result column="YN_FLAG" property="ynFlag"/>
+        <result column="TITLE" property="title"/>
     </resultMap>
     <select id="findList" resultMap="BaseResultMap">
         select
@@ -28,7 +29,8 @@
         LR.SHOW_ORDER,
         LR.REDIRECT,
         LR.P_ID,
-        LR.YN_FLAG
+        LR.YN_FLAG,
+        LR.TITLE
         from lot_routes LR
         where LR.YN_FLAG = 'Y'
         order by LR.show_order ASC

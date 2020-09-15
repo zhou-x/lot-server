@@ -1,7 +1,6 @@
 package com.lot.serviceImpl;
 
 import com.lot.Base.MenuTree;
-import com.lot.dao.LotRoutesDao;
 import com.lot.mapper.LotRoutesMapper;
 import com.lot.service.LotRoutesService;
 import com.lot.vo.LotRoutes.LotRoutesVo;

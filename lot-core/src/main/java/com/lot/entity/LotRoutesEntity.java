@@ -26,6 +26,7 @@ public class LotRoutesEntity {
     private Timestamp createdTime;
     private Timestamp modifiedTime;
     private String redirect;
+    private String title;
 
     @Id
     @Column(name = "routes_id")
@@ -190,5 +191,15 @@ public class LotRoutesEntity {
 
     public void setRedirect(String redirect) {
         this.redirect = redirect;
+    }
+
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

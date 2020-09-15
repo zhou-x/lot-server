@@ -18,6 +18,7 @@ public class LotRoutesVo implements Serializable {
     private String[] authority;
     private String redirect;
     private String pId;
+    private String title;
 
     private List<LotRoutesVo> children;
 
@@ -111,6 +112,7 @@ public class LotRoutesVo implements Serializable {
         lotRoutesVo.setPath(lotRoutesEntity.getPath() != null ? lotRoutesEntity.getPath() : "");
         lotRoutesVo.setpId(lotRoutesEntity.getpId() != null ? lotRoutesEntity.getpId() : "");
         lotRoutesVo.setRoutesId(lotRoutesEntity.getRoutesId() != null ? lotRoutesEntity.getRoutesId() : "");
+        lotRoutesVo.setTitle(lotRoutesEntity.getTitle() != null ? lotRoutesEntity.getTitle() : "");
         return lotRoutesVo;
     }
 
@@ -127,5 +129,13 @@ public class LotRoutesVo implements Serializable {
                 ", pId='" + pId + '\'' +
                 ", children=" + children +
                 '}';
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

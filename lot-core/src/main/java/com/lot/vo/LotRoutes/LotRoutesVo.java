@@ -78,12 +78,10 @@ public class LotRoutesVo implements Serializable {
         this.redirect = redirect;
     }
 
-    @JsonBackReference
     public String getRoutesId() {
         return routesId;
     }
 
-    @JsonBackReference
     public void setRoutesId(String routesId) {
         this.routesId = routesId;
     }

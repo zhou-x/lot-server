@@ -11,4 +11,6 @@ public interface LotRoutesService {
      * @return
      */
     public List<LotRoutesVo> findList();
+
+    LotRoutesVo get(String routesId);
 }

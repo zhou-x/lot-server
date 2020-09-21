@@ -19,6 +19,7 @@ public class LotRoutesVo implements Serializable {
     private String redirect;
     private String pId;
     private String title;
+    private String[] authorityDesc;
 
     private List<LotRoutesVo> children;
 
@@ -135,5 +136,13 @@ public class LotRoutesVo implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String[] getAuthorityDesc() {
+        return authorityDesc;
+    }
+
+    public void setAuthorityDesc(String[] authorityDesc) {
+        this.authorityDesc = authorityDesc;
     }
 }

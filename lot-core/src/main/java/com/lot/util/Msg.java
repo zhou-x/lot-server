@@ -1,5 +1,7 @@
 package com.lot.util;
 
+import com.lot.config.exception.CommonEnum;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,12 +9,12 @@ import java.util.Map;
 /**
  * @author zel
  * @date 2020-05-22
- * @description  用于返回前端json数据的工具类
+ * @description 用于返回前端json数据的工具类
  */
-public class Msg implements Serializable{
+public class Msg implements Serializable {
 
     // 状态码
-    private int status;
+    private String status;
     // 提示信息
     private String message;
     //角色
@@ -23,28 +25,28 @@ public class Msg implements Serializable{
 
     public static Msg success() {
         Msg result = new Msg();
-        result.setStatus(200);
+        result.setStatus("200");
         result.setMessage("success");
         return result;
     }
 
     public static Msg fail() {
         Msg result = new Msg();
-        result.setStatus(400);
+        result.setStatus("400");
         result.setMessage("fail");
         return result;
     }
 
     public static Msg noPermission() {
         Msg result = new Msg();
-        result.setStatus(401);
+        result.setStatus("401");
         result.setMessage("no permission");
         return result;
     }
 
     public static Msg login(String currentAuthority) {
         Msg result = new Msg();
-        result.setStatus(200);
+        result.setStatus("200");
         result.setMessage("success");
         result.setCurrentAuthority(currentAuthority);
         return result;
@@ -52,50 +54,64 @@ public class Msg implements Serializable{
 
     public static Msg noLogin() {
         Msg result = new Msg();
-        result.setStatus(401);
+        result.setStatus("401");
         result.setMessage("no login");
         return result;
     }
 
     public static Msg unauthorized() {
         Msg result = new Msg();
-        result.setStatus(500);
+        result.setStatus("500");
         result.setMessage("unauthorized");
         return result;
     }
 
     public static Msg error() {
         Msg result = new Msg();
-        result.setStatus(500);
+        result.setStatus("500");
         result.setMessage("error");
         return result;
     }
 
     public static Msg error(String errorMsg) {
         Msg result = new Msg();
-        result.setStatus(4001);
+        result.setStatus("4001");
+        result.setMessage(errorMsg);
+        return result;
+    }
+
+    public static Msg error(String status, String errorMsg) {
+        Msg result = new Msg();
+        result.setStatus(status);
         result.setMessage(errorMsg);
         return result;
     }
 
     public static Msg errorUserPassword() {
         Msg result = new Msg();
-        result.setStatus(501);
+        result.setStatus("501");
         result.setMessage("error");
         return result;
     }
 
-    public static Msg code(int code){
+    public static Msg code(String code) {
         Msg result = new Msg();
         result.setStatus(code);
         result.setMessage("exception");
         return result;
     }
 
-    public static Msg success(int code, String message){
+    public static Msg success(String code, String message) {
         Msg result = new Msg();
         result.setStatus(code);
         result.setMessage(message);
+        return result;
+    }
+
+    public static Msg error(CommonEnum internalServerError) {
+        Msg result = new Msg();
+        result.setStatus(internalServerError.getResultCode());
+        result.setMessage(internalServerError.getResultMsg());
         return result;
     }
 
@@ -104,11 +120,11 @@ public class Msg implements Serializable{
         return this;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

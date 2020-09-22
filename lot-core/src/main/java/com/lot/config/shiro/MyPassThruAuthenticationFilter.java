@@ -1,6 +1,6 @@
 package com.lot.config.shiro;
 
-import com.lot.config.exception.UnauthorizedException;
+import com.lot.config.exception.BizException;
 import com.lot.service.LotAuthorityService;
 import com.lot.util.JwtUtil;
 import com.lot.util.StringUtils;
@@ -96,7 +96,7 @@ public class MyPassThruAuthenticationFilter extends PassThruAuthenticationFilter
             if (hasPermission)
                 return true;
             else {
-                UnauthorizedException ex = new UnauthorizedException("当前用户没有访问路径 " + requestURL + " 的权限");
+                BizException ex = new BizException("403", "当前用户没有访问路径 " + requestURL + " 的权限");
 
                 subject.getSession().setAttribute("ex", ex);
 

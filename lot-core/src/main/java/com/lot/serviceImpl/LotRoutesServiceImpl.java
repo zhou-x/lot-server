@@ -1,7 +1,7 @@
 package com.lot.serviceImpl;
 
 import com.lot.Base.MenuTree;
-import com.lot.config.exception.UnauthorizedException;
+import com.lot.config.exception.BizException;
 import com.lot.dao.LotRoleDao;
 import com.lot.dao.LotRoutesDao;
 import com.lot.mapper.LotRoutesMapper;
@@ -34,14 +34,15 @@ public class LotRoutesServiceImpl implements LotRoutesService {
             String[] authorityDesc = new String[lotRoutesVo.getAuthority().length];
             for (int i = 0; i < lotRoutesVo.getAuthority().length; i++) {
                 String authority = lotRoutesVo.getAuthority()[i].substring(lotRoutesVo.getAuthority()[i].indexOf("[") + 1, lotRoutesVo.getAuthority()[i].indexOf("]"));
-                authorityDesc[i] = lotRoleDao.getByName(authority).getRoleDesc();
+                String name = lotRoleDao.getByName(authority).getRoleDesc();
+                authorityDesc[i] = name;
             }
             lotRoutesVo.setAuthorityDesc(authorityDesc);
+            System.out.println(1);
             return lotRoutesVo;
         } catch (Exception e) {
-            new UnauthorizedException("根据路由Id获取出错");
+           throw  new BizException("501","根据路由Id获取出错或权限里有不属于权限表中数据");
         }
-        return null;
     }
 
 }
